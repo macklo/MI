@@ -14,4 +14,12 @@ plot(podajniki)
 
 totalCorrelation = corrcoef(data);
 
-autoCorrelation = autocorr(data);
+lags = 27960;
+
+autoCorrelations = zeros(lags+1, 22);
+
+for i = 1:22 
+	figure
+	autocorr(data(:, i), lags)
+	autoCorrelations(:, i) = autocorr(data(:, i), lags);
+end
