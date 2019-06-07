@@ -17,8 +17,8 @@ podajniki = data(:, 17:22);
 
 u = data(:, 1:end-2);
 uNames = variableNames(1:end-2);
-y = data(:, end-2:end);
-yNames = variableNames(end-2:end);
+y = data(:, end-1:end);
+yNames = variableNames(end-1:end);
 
 figure
 subplot(2, 1, 1)
@@ -42,26 +42,33 @@ autoCorrelations = zeros(lags+1, 22);
 % end
 
 [maxVals, maxIndex] = max(totalCorrelation - eye(size(totalCorrelation)));
-threshold = 0.75;
+threshold = 0.78;
 signals = totalCorrelation - eye(size(totalCorrelation)) > threshold;
 
-sets = cell(22, 1);
+sets = {};
+setIndex = {};
 setIterator = 1;
 
-for i = 1:22
-	set = [];
-	for j = 1:22
-		if signals(i, j)
-			set = [set stringVariableNames(j)];
-% 			signals(j, i) = 0;
-		end
-	end
-	sets{i} = set;
-end
+flag = sum(signals);
 
 for i = 1:22
+	if flag(i)
+		set = [stringVariableNames(i)];
+		setIndex{setIterator} = [i];
+		for j = 1:22
+			if signals(i, j)
+				set = [set stringVariableNames(j)];
+				setIndex{setIterator} = [setIndex{setIterator} j];
+				flag(j) = 0;
+			end
+		end
+		sets{setIterator} = set;
+		setIterator = setIterator + 1;
+	end
+end
+
+for i = 1:setIterator-1
 	if size(sets{i}, 2)
-		fprintf(stringVariableNames(i) + ": ")
 		for j = 1:size(sets{i}, 2)
 			fprintf(sets{i}(j) + ", ")
 		end
