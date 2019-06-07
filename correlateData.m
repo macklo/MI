@@ -62,6 +62,9 @@ end
 figure
 stairs(modData)
 
+uMod = modData(:, 1:end-2);
+yMod = modData(:, end-1 : end);
+
 uTrain = modData(1:(floor(size(modData, 1)/2)), 1:end-2);
 yTrain = modData(1:(floor(size(modData, 1)/2)), end-1 : end);
 
