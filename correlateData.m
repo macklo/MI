@@ -30,6 +30,9 @@ for columnToRemove = removedColums
 	modData(:, columnToRemove) = [];
 end
 
+modY = modData(:, end-1:end);
+modData = modData(:, 1:end-2);
+
 for set = setIndex
 	labels = [];
 	newVariable = zeros(size(data, 1), 1);
@@ -49,6 +52,8 @@ end
 
 modData(:, 9) = [];
 
+modData = [modData, modY];
+
 for i = 1:size(modData, 2)
 	column = modData(:, i);
 	modData(:, i) = normalize(column, 'range' ,[-1,1]);
@@ -57,13 +62,24 @@ end
 figure
 stairs(modData)
 
-trainData = modData(1:(floor(size(modData, 1)/2)), :);
-testData  = modData(floor(size(modData, 1)/2) + 1:end, :);
+uTrain = modData(1:(floor(size(modData, 1)/2)), 1:end-2);
+yTrain = modData(1:(floor(size(modData, 1)/2)), end-1 : end);
+
+uTest  = modData(floor(size(modData, 1)/2) + 1:end, 1:end-2);
+yTest  = modData(floor(size(modData, 1)/2) + 1:end, end-1 : end);
 
 figure
-	stairs(trainData);
-	title("Dane trenuj¹ce")
+	stairs(uTrain);
+	title("x trenuj¹ce")
 	
 figure
-	stairs(testData);
-	title("Dane testowe")
+	stairs(yTrain);
+	title("y trenuj¹ce")
+
+figure
+	stairs(uTest);
+	title("x testowe")
+
+figure
+	stairs(yTest);
+	title("y testowe")
