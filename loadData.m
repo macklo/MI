@@ -12,8 +12,51 @@ clc
 
 load('data/data.mat')
 load('data/varNames.mat')
+load('data/time.mat')
 
-podajniki = data(:, 17:22);
+timeVals = zeros(size(timeCell));
+
+for i = 1:size(timeCell, 1)
+	time = timeCell{i};
+	strrep(time,':','');
+	timeVals(i) = str2num(strrep(time,':',''));
+end
+
+breaks = [0];
+
+startPoint = 2;
+found = 0;
+while 1
+	for i = startPoint:6:size(timeVals, 1)
+		for j = i:i+4
+			if (timeVals(j) - timeVals(j-1) ~= 10)
+				breaks = [breaks; j-1];
+				found = 1;
+				break
+			end
+		end
+		if found
+			break
+		end
+	end
+	startPoint = j+1;
+	found = 0;
+	if i+6 > size(timeVals, 1)
+		break;
+	end
+end
+
+dataSets = cell(size(breaks, 1), 1);
+
+for i = 2:size(breaks, 1)
+	dataSets{i -1} = data(breaks(i-1)+1:breaks(i), :);
+end
+dataSets{i} = data(breaks(i):end, :);
+
+for i = 1:size(dataSets, 1)
+	figure
+	stairs(dataSets{i});
+end
 
 u = data(:, 1:end-2);
 uNames = variableNames(1:end-2);
