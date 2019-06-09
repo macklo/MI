@@ -1,1 +1,0 @@
-[a]=mymyNeuralNetworkFunction2(uMod);

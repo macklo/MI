@@ -25,9 +25,11 @@ for set = setIndex
 end
 
 removedColums = sort(removedColums, 2, 'descend');
+variableNamesMod = variableNames;
 
 for columnToRemove = removedColums
 	modData(:, columnToRemove) = [];
+	variableNamesMod(columnToRemove) = [];
 end
 
 modY = modData(:, end-1:end);
@@ -48,9 +50,11 @@ for set = setIndex
 	labels = [labels, "Nowa zmienna"];
 	legend(labels);
 	modData = [modData, newVariable];
+	variableNamesMod = [variableNamesMod, {"nowa zmienna"}];
 end
 
 modData(:, 9) = [];
+variableNamesMod(9) = [];
 
 modData = [modData, modY];
 
@@ -68,6 +72,7 @@ save("data/normalizeData.mat ", "minVals", "maxVals");
 
 figure
 stairs(modData)
+legend(variableNamesMod);
 
 uMod = modData(:, 1:end-2);
 yMod = modData(:, end-1 : end);
@@ -94,3 +99,6 @@ figure
 	hold on
 	stairs(yTest);
 	title("y testowe")
+	
+totalCorrelation = corrcoef(modData);
+max(totalCorrelation - eye(size(totalCorrelation)))
