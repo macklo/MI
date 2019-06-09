@@ -58,6 +58,8 @@ for i = 1:size(dataSets, 1)
 	stairs(dataSets{i});
 end
 
+save("data/dataSets.mat", "dataSets");
+
 u = data(:, 1:end-2);
 uNames = variableNames(1:end-2);
 y = data(:, end-1:end);
