@@ -12,7 +12,8 @@ minValsSets = cell(size(dataSets));
 maxValsSets = cell(size(dataSets));
 
 for iterator = 1:size(dataSets, 1)
-	modData = data;
+	data = dataSets{iterator}
+	modData = dataSets{iterator};
 	u = data(:, 1:end-2);
 	uNames = variableNames(1:end-2);
 
