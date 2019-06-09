@@ -54,10 +54,17 @@ modData(:, 9) = [];
 
 modData = [modData, modY];
 
+maxVals  = zeros(size(modData, 2), 1);
+minVals  = zeros(size(modData, 2), 1);
+
 for i = 1:size(modData, 2)
 	column = modData(:, i);
-	modData(:, i) = normalize(column, 'range' ,[-1,1]);
+	maxVals(i) = max(column);
+	minVals(i) = min(column);
+	modData(:, i) = ((modData(:, i) - minVals(i)) / (maxVals(i) - minVals(i))) * 2 - 1;
 end
+
+save("data/normalizeData.mat ", "minVals", "maxVals");
 
 figure
 stairs(modData)
@@ -84,5 +91,6 @@ figure
 	title("x testowe")
 
 figure
+	hold on
 	stairs(yTest);
 	title("y testowe")
