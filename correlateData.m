@@ -11,7 +11,7 @@ yDataSets = cell(size(dataSets));
 minValsSets = cell(size(dataSets));
 maxValsSets = cell(size(dataSets));
 
-for i = 1:size(dataSets, 1)
+for iterator = 1:size(dataSets, 1)
 	modData = data;
 	u = data(:, 1:end-2);
 	uNames = variableNames(1:end-2);
@@ -74,8 +74,8 @@ for i = 1:size(dataSets, 1)
 		modData(:, i) = ((modData(:, i) - minVals(i)) / (maxVals(i) - minVals(i))) * 2 - 1;
 	end
 
-	minValsSets{i} = minVals;
-	maxValsSets{i} = maxVals;
+	minValsSets{iterator} = minVals;
+	maxValsSets{iterator} = maxVals;
 
 % 	figure
 % 	stairs(modData)
@@ -83,8 +83,8 @@ for i = 1:size(dataSets, 1)
 
 	uMod = modData(:, 1:end-2);
 	yMod = modData(:, end-1 : end);
-	uDataSets{i} = uMod;
-	yDataSets{i} = yMod;
+	uDataSets{iterator} = uMod;
+	yDataSets{iterator} = yMod;
 
 	% uTrain = modData(1:(floor(size(modData, 1)/2)), 1:end-2);
 	% yTrain = modData(1:(floor(size(modData, 1)/2)), end-1 : end);
