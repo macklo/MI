@@ -6,8 +6,10 @@ y1=yDataSets{1};
 y2=yDataSets{2};
 y3=yDataSets{3};
 y4=yDataSets{4};
-TestedDataSet=3;
+TestedDataSet=1;
 
+minVals = minValsSets{TestedDataSet};
+maxVals = maxValsSets{TestedDataSet};
  
 if TestedDataSet==1
     x1=u1(11:end,:);
@@ -36,22 +38,23 @@ for i = 1:size(mlp, 2)
     mlp(:, i) = (((mlp(:, i) + 1) / 2) * (maxVals(13+i) - minVals(13+i))) + minVals(13+i);
 end
 figure
-title('y1')
-stairs(rn(:,1))
-hold on
-stairs(mlp(11:end,1))
-hold on
-stairs(dataSets{TestedDataSet}(11:end,23))
-legend('model rn','model mlp','dane')
+	subplot(2, 1, 1)
+		title('y1')
+		hold on
+		stairs(rn(:,1))
+		stairs(mlp(11:end,1))
+		stairs(dataSets{TestedDataSet}(11:end,23))
+		legend('model rn','model mlp','dane', 'Location', 'northeastoutside')
 
-figure
-title('y2')
-stairs(rn(:,2))
-hold on
-stairs(mlp(11:end,2))
-hold on
-stairs(dataSets{TestedDataSet}(11:end,24))
-legend('model rn','model mlp','dane')
+	subplot(2, 1, 2)
+		title('y2')
+		hold on
+		stairs(rn(:,2))
+		stairs(mlp(11:end,2))
+		stairs(dataSets{TestedDataSet}(11:end,24))
+		legend('model rn','model mlp','dane', 'Location', 'northeastoutside')
+	
+		
 err(1)=immse(rn,dataSets{TestedDataSet}(11:end,23:24));
 err(2)=immse(mlp,dataSets{TestedDataSet}(:,23:24));
 err

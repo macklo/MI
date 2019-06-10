@@ -8,11 +8,13 @@ load("data/dataSets.mat")
 
 uDataSets = cell(size(dataSets));
 yDataSets = cell(size(dataSets));
+uDataSetsSmooth = cell(size(dataSets));
+yDataSetsSmooth = cell(size(dataSets));
 minValsSets = cell(size(dataSets));
 maxValsSets = cell(size(dataSets));
 
 for iterator = 1:size(dataSets, 1)
-	data = dataSets{iterator}
+	data = dataSets{iterator};
 	modData = dataSets{iterator};
 	u = data(:, 1:end-2);
 	uNames = variableNames(1:end-2);
@@ -83,9 +85,22 @@ for iterator = 1:size(dataSets, 1)
 % 	legend(variableNamesMod);
 
 	uMod = modData(:, 1:end-2);
+	uModSmooth = modData(:, 1:end-2);
+	for i = 1:size(uMod, 2)
+		uModSmooth(:, i) = smooth(uModSmooth(:, i), 100);
+	end
+	
 	yMod = modData(:, end-1 : end);
+	yModSmooth = modData(:, end-1 : end);
+	for i = 1:size(yMod, 2)
+		yModSmooth(:, i) = smooth(yModSmooth(:, i), 100);
+	end
+	
 	uDataSets{iterator} = uMod;
 	yDataSets{iterator} = yMod;
+	
+	uDataSetsSmooth{iterator} = uModSmooth;
+	yDataSetsSmooth{iterator} = yModSmooth;
 
 	% uTrain = modData(1:(floor(size(modData, 1)/2)), 1:end-2);
 	% yTrain = modData(1:(floor(size(modData, 1)/2)), end-1 : end);
@@ -94,11 +109,21 @@ for iterator = 1:size(dataSets, 1)
 	% yTest  = modData(floor(size(modData, 1)/2) + 1:end, end-1 : end);
 
 	figure
-		stairs(uMod);
-		title("u")
+		subplot(2, 1, 1)
+			stairs(uMod);
+			title("u")
 
-	figure
-		stairs(yMod);
-		title("y")
+		subplot(2, 1, 2)
+			stairs(yMod);
+			title("y")
 	
 end
+
+u1=uDataSets{1};
+u2=uDataSets{2};
+u3=uDataSets{3};
+u4=uDataSets{4};
+y1=yDataSets{1};
+y2=yDataSets{2};
+y3=yDataSets{3};
+y4=yDataSets{4};

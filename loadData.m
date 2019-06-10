@@ -67,11 +67,11 @@ yNames = variableNames(end-1:end);
 
 figure
 subplot(2, 1, 1)
-	plot(u)
-	legend(uNames)
+	stairs(u)
+	legend(uNames, 'Location', 'northeastoutside')
 subplot(2, 1, 2)
-	plot(y)
-	legend(yNames)
+	stairs(y)
+	legend(yNames, 'Location', 'northeastoutside')
 
 
 totalCorrelation = corrcoef(data);
